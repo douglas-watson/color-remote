@@ -1,0 +1,9 @@
+Color Remote
+============
+
+Remote control of an RGB LED through a webpage.
+
+Structure:
+
+* arduino/ - contains arduino sketches for the hardware side operations
+* web/	- contains web.py code to handle color change requests and serve pages.
