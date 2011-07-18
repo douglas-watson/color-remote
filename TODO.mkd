@@ -1,0 +1,16 @@
+TODO
+====
+
+# Client-server
+- Replace colour send call by AJAX
+- Replace textinput by color selection widget
+- Implement state feedback: echoing state of the server live
+
+# Serial communication
+- Establish serial connection
+- send request through serial
+- Find out webpy's model (CGI vs mod_python)
+- Should I use a standalone script with hooks and signals? Establish the connection from webpy?
+
+# Arduino
+- Can I implement signals in Arduino?

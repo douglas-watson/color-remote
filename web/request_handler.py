@@ -23,7 +23,7 @@ render = web.template.render('templates/')
 app = web.application(urls, globals())
 
 colour_form = form.Form(
-        form.Textbox("colour", description="Colour"),
+        form.Textbox("colour", description="Colour", id='colour'),
         form.Button("submit", type="submit", description="Change colour")
     )
 
@@ -36,16 +36,14 @@ class index:
     def POST(self):
         f = colour_form()
         if not f.validates():
-            response = None
+            response = "Fail"
             return render.index(f, response)
         else:
-            response = f.d.colour
-            return render.index(f, response)
-
-class foo:
-    def GET(self):
-        f = colour_form()
-        return render.foo(f)
+            # Adapted for ajax, return only response string, not template.
+            response = f['colour'].value
+            with open("log", 'a') as fo:
+                fo.write(str(response))
+            return str(response)
 
 
 if __name__ == '__main__':

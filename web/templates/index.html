@@ -4,8 +4,9 @@ $def with (form, response)
 <head>
 <title>RGB LED Remote</title>
 <link rel="stylesheet" type="text/css" href="/static/styling.css" />
+<script type="text/javascript" src="/static/jquery.js"></script>
+<script type="text/javascript" src="/static/ajax.js"></script>
 <!--
-<script type="text/javascript" src="FIXME"></script>
 <style type="text/css">
 /* <![CDATA[ */
 /* ]]> */
@@ -22,8 +23,12 @@ $def with (form, response)
             <img src="/static/arduino_pic.jpg" alt="Arduino with RGB LED" />
         </div>
         <div id="controls">
+            <span id="response">
+            $if not form.valid:
+                <p class="error">Invalid input</p>
             $if response:
                 <p>$response</p>
+            </span>
             <form method="post" accept-charset="utf-8">
                 $:form.render()
             </form>
