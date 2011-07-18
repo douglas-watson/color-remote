@@ -28,9 +28,9 @@ colour_form = form.Form(
             form.regexp(r'^#[a-fA-F0-9]{3}|[a-fA-F0-9]{6}$', 
                 'Invalid colour code'),
             description="Pick a colour!", id='colour',
-            value="#a5ed82"
-        ),
-        form.Button("submit", type="submit", description="Change colour")
+            value="#a5ed82"),
+        form.Button("submit", type="submit", html="Set colour!", 
+            description="Change colour")
     )
 
 class index:
