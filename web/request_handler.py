@@ -23,7 +23,13 @@ render = web.template.render('templates/')
 app = web.application(urls, globals())
 
 colour_form = form.Form(
-        form.Textbox("colour", description="Colour", id='colour'),
+        form.Textbox("colour",
+            form.notnull,
+            form.regexp(r'^#[a-fA-F0-9]{3}|[a-fA-F0-9]{6}$', 
+                'Invalid colour code'),
+            description="Pick a colour!", id='colour',
+            value="#a5ed82"
+        ),
         form.Button("submit", type="submit", description="Change colour")
     )
 
@@ -36,8 +42,8 @@ class index:
     def POST(self):
         f = colour_form()
         if not f.validates():
-            response = "Fail"
-            return render.index(f, response)
+            response = "Invalid input"
+            return str(response)
         else:
             # Adapted for ajax, return only response string, not template.
             response = f['colour'].value

@@ -5,7 +5,7 @@ body {
 
 #main {
     display: block;
-    text-align: left;
+    /* text-align: left; */
     margin: 0px auto;
     width: 800px;
     background: #E8E8E8;
@@ -14,18 +14,15 @@ body {
 }
 
 #header {
-    height: 200px;
+    height: 3em;
+    padding: 30px;
     background-color: #1F1F1F;
     -moz-border-radius-topleft: 10px;
     -moz-border-radius-topright: 10px;
     -webkit-border-top-left-radius: 10px;
     -webkit-border-top-right-radius: 10px;
     vertical-align: bottom;
-}
-
-#videoplayer {
     text-align: center;
-    margin: 10px;
 }
 
 h1 {
@@ -33,4 +30,22 @@ h1 {
     color: white;
     height: 100%;
     margin: auto;
+    padding-top: 2em;
 }
+
+#controls {
+    text-align: center;
+    width: 300px;
+    margin: auto;
+}
+
+#videoplayer {
+    text-align: center;
+    margin: 10px;
+}
+
+#colourpicker {
+    width: 195px;
+    margin: 20px auto;
+}
+
