@@ -14,6 +14,11 @@
 import web
 from web import form
 
+import sys
+sys.path.append('../serial')
+import serial_client
+
+
 urls = (
         '/', 'index',
         '/foo', 'foo',
@@ -46,10 +51,13 @@ class index:
             return str(response)
         else:
             # Adapted for ajax, return only response string, not template.
-            response = f['colour'].value
+            colour = f['colour'].value
+            # Write to log file
             with open("log", 'a') as fo:
-                fo.write(str(response))
-            return str(response)
+                fo.write(str(colour))
+            # Request colour change on arduino
+            serial_client.set_colour(colour)
+            return str(colour)
 
 
 if __name__ == '__main__':
