@@ -1,40 +1,46 @@
 #!/usr/bin/env python
 # -*- coding: UTF8 -*-
 #
-#   serial_driver.py 
+#   serial_driver.py - Simpler attempt at the colour changer daemon 
 #
-#   PURPOSE: Receive requests from serial_client.py and control the arduino in
-#   response
+#   PURPOSE: Receive colour change requests from serial_client.py and relay
+#   them to an Arduino connected to an RGB LED
 #
 #   AUTHOR: Douglas Watson <douglas@watsons.ch>
 #
-#   DATE: started on 29 July 2011
+#   DATE: started on 2nd August 2011
 #
 #   LICENSE: GNU GPL
 #
 #################################################
 
-from twisted.spread import pb
+from twisted.protocols.basic import LineReceiver
+from twisted.internet.protocol import Factory
 from twisted.internet import reactor
 
-##############################
-# Constants 
-##############################
+HOST = 'localhost'
+PORT = 54636
 
-HOSTNAME = 'localhost'
-PORT = 54637
+# This is just about the simplest possible protocol
+class RGBControl(LineReceiver):
 
-##############################
-# Remotely callable stuff
-##############################
+    def connectionMade(self):
+        print "Connection received from", self.transport.client
 
-class RGBController(pb.Root):
-    def remote_set_colour(self, colour):
-        print "Setting new colour:", colour
-        with open("fake_serial", "a") as serial:
-                serial.write("%s\n" % colour)
-        return "success"
+    def lineReceived(self, line):
+        """ Receive a single line containing the hex colour code """
+        print "Received line:", line
+        # for the moment, just write to fake_serial
+        self.transport.loseConnection()
+        with open('fake_serial', 'a') as fo:
+            fo.write(line + "\n") # line does not contain end of line char.
+
+
+def main():
+    f = Factory()
+    f.protocol = RGBControl
+    reactor.listenTCP(PORT, f)
+    reactor.run()
 
 if __name__ == '__main__':
-    reactor.listenTCP(PORT, pb.PBServerFactory(RGBController()))
-    reactor.run()
+    main()

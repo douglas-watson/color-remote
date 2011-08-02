@@ -54,7 +54,7 @@ class index:
             colour = f['colour'].value
             # Write to log file
             with open("log", 'a') as fo:
-                fo.write(str(colour))
+                fo.write(str(colour) + "\n")
             # Request colour change on arduino
             serial_client.set_colour(colour)
             return str(colour)
