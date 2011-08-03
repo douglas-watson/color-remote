@@ -19,16 +19,19 @@ from twisted.protocols.basic import LineReceiver
 from twisted.internet.protocol import ClientFactory
 from twisted.internet import reactor
 
-HOST = 'localhost'
-PORT = 54636
+from constants import HOST, PORT, SUCCESS
 
 class RGBClient(LineReceiver):
+
     def connectionMade(self):
         print "Connection established"
-        # change colour
-        # self.sendLine(self.factory.colour)
-        self.sendLine("FF33JX")
-        print "Line sent"
+        self.sendLine(self.factory.colour)
+        print "Line sent..."
+
+    def lineReceived(self, line):
+        if line == SUCCESS:
+            print "...and successfully transmitted"
+        self.transport.loseConnection()
 
 
 
@@ -37,25 +40,29 @@ class RGBClientFactory(ClientFactory):
     argument, in the form of a hex colour value '''
     protocol = RGBClient
 
-    # def __init__(self, colour):
-        # self.colour = colour.decode('ascii', 'replace')
+    def __init__(self, colour):
+        self.colour = colour.encode('ascii', 'replace')
 
     def clientConnectionFailed(self, connector, reason):
         print 'Connection failed:', reason.getErrorMessage()
         # make sure the reactor is stopped
-        reactor.stop()
+        if reactor.running:
+            reactor.stop()
+        sys.exit(1)
 
     def clientConnectionLost(self, connector, reason):
         print 'Connection lost:', reason.getErrorMessage()
         # make sure reactor is stopped
-        reactor.stop()
+        if reactor.running:
+            reactor.stop()
 
 def set_colour(colour):
     # f = RGBClientFactory(colour)
-    f = RGBClientFactory()
+    f = RGBClientFactory(colour)
     reactor.connectTCP(HOST, PORT, f)
-    reactor.run()
+    if not reactor.running:
+        reactor.run()
 
 if __name__ == '__main__':
     # just test a colour change request
-    set_colour("FF33JX")
+    set_colour(sys.argv[1])
