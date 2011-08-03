@@ -16,7 +16,8 @@ from web import form
 
 import sys
 sys.path.append('../serial')
-import serial_client
+from constants import HOST, PORT
+import rpyc_client
 
 
 urls = (
@@ -47,7 +48,7 @@ class index:
     def POST(self):
         f = colour_form()
         if not f.validates():
-            response = "Invalid input"
+            response = 'Invalid input'
             return str(response)
         else:
             # Adapted for ajax, return only response string, not template.
@@ -55,10 +56,8 @@ class index:
             # Write to log file
             with open("log", 'a') as fo:
                 fo.write(str(colour) + "\n")
-            # Request colour change on arduino
-            serial_client.set_colour(colour)
-            return str(colour)
-
-
+            # Request colour change through serial driver
+            return_value = rpyc_client.set_colour(colour)
+            return return_value
 if __name__ == '__main__':
     app.run()

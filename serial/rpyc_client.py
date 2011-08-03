@@ -13,3 +13,21 @@
 
 import rpyc
 
+from constants import HOST, PORT
+
+
+
+def set_colour(colour):
+    ''' All-in-one function to request a colour change '''
+    connection = rpyc.connect(HOST, PORT)
+    rgb_controller = connection.root
+    return_value = rgb_controller.set_colour(colour)
+    connection.close()
+    return return_value
+
+if __name__ == '__main__':
+    import sys
+    if len(sys.argv) <= 1:
+        print "Please supply a colour string as single argument"
+        sys.exit(1)
+    set_colour(sys.argv[1])

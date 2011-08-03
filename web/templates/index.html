@@ -34,7 +34,8 @@ $def with (form, response)
             <h1 id="heading">*Le colour select*</h1>
         </div>
         <div id="videoplayer">
-            <img src="/static/arduino_pic.jpg" alt="Arduino with RGB LED" />
+            <img src="/static/arduino_pic.jpg" alt="Arduino with RGB LED"
+            width="450px"/>
         </div>
         <div id="controls">
             <span id="response">
@@ -42,6 +43,8 @@ $def with (form, response)
                 <p class="error">Invalid input</p>
             $if response:
                 <p>$response</p>
+            $else:
+                <p>Please select a new colour:</p>
             </span>
             <div id="colourpicker"></div>
             <form method="post" accept-charset="utf-8">

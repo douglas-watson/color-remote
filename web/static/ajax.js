@@ -7,7 +7,6 @@ jQuery(document).ready(function() {
             success: function(data) {
                 jQuery('span#response').html(data).hide().fadeIn(1500);
             },
-
         });
         return false;
     });
